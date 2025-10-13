@@ -365,7 +365,7 @@
             <h1>Artificial Casting</h1>
             
             <div class="api-section">
-                <label for="apiKey">Reve API Key:</label>
+                <label for="apiKey">Key:</label>
                 <input type="text" id="apiKey" placeholder="Enter your API key" value="papi.c9a7832d-7b93-4469-a3a6-e1049f29aedc.vjnbiXaV2WKgSVpVz8MC4q5-LCXAFtKY">
             </div>
 
@@ -577,7 +577,14 @@
             } else if (ethnicityChoice === 'asian') {
                 const asianEthnicities = ['East Asian', 'South Asian', 'Southeast Asian'];
                 return asianEthnicities[randomInRange(0, asianEthnicities.length - 1)];
+            } else if (ethnicityChoice === 'any') {
+                const allEthnicities = [
+                    'Caucasian', 'African', 'East Asian', 'South Asian', 'Southeast Asian',
+                    'Hispanic', 'Middle Eastern', 'Pacific Islander', 'Mixed ethnicity'
+                ];
+                return allEthnicities[randomInRange(0, allEthnicities.length - 1)];
             } else {
+                // POC
                 const pocEthnicities = [
                     'African', 'East Asian', 'South Asian', 'Southeast Asian',
                     'Hispanic', 'Middle Eastern', 'Pacific Islander', 'Mixed ethnicity'
