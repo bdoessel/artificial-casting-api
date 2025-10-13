@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artificial Casting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(135deg, #52D6A9 0%, #3FBFA0 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            gap: 0;
+        }
+
+        .left-panel {
+            background: white;
+            padding: 30px;
+            overflow-y: auto;
+            border-right: 3px solid #3FBFA0;
+        }
+
+        .right-panel {
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8em;
+            font-family: 'Futura', 'Century Gothic', Arial, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .api-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .api-section label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+
+        .api-section input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-family: monospace;
+        }
+
+        .controls {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.85em;
+        }
+
+        .value-display {
+            color: #3FBFA0;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .slider-container {
+            position: relative;
+            height: 30px;
+            margin-top: 5px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 5px;
+        }
+        
+        input[type="range"]::-moz-range-track {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3FBFA0;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-top: -5px;
+            position: relative;
+            z-index: 100;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3FBFA0;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 100;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .gender-control {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .androgyny-slider {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .androgyny-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75em;
+            color: #888;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #52D6A9 0%, #3FBFA0 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(63, 191, 160, 0.4);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(63, 191, 160, 0.6);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .keywords-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.85em;
+        }
+
+        .keywords-hint {
+            font-size: 0.75em;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* Right Panel Styles */
+        .output-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .placeholder {
+            text-align: center;
+            color: #999;
+            font-size: 1.2em;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #555;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #3FBFA0;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .output {
+            display: none;
+            width: 100%;
+        }
+
+        .output.active {
+            display: block;
+        }
+
+        .generated-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .copy-btn, .download-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: #3FBFA0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.2s;
+            font-weight: 600;
+        }
+
+        .copy-btn:hover, .download-btn:hover {
+            background: #35A68D;
+        }
+
+        .copy-btn.copied {
+            background: #4caf50;
+        }
+
+        .prompt-text {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75em;
+            line-height: 1.5;
+            color: #555;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .error {
+            background: #fee;
+            border: 2px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px;
+            font-size: 0.9em;
+        }
+
+        /* Scrollbar Styling */
+        .left-panel::-webkit-scrollbar, .right-panel::-webkit-scrollbar, .prompt-text::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .left-panel::-webkit-scrollbar-track, .right-panel::-webkit-scrollbar-track, .prompt-text::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .left-panel::-webkit-scrollbar-thumb, .right-panel::-webkit-scrollbar-thumb, .prompt-text::-webkit-scrollbar-thumb {
+            background: #3FBFA0;
+            border-radius: 4px;
+        }
+
+        .left-panel::-webkit-scrollbar-thumb:hover, .right-panel::-webkit-scrollbar-thumb:hover, .prompt-text::-webkit-scrollbar-thumb:hover {
+            background: #35A68D;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- LEFT PANEL: INPUTS -->
+        <div class="left-panel">
+            <h1>Artificial Casting</h1>
+            
+            <div class="api-section">
+                <label for="apiKey">Reve API Key:</label>
+                <input type="text" id="apiKey" placeholder="Enter your API key" value="papi.c9a7832d-7b93-4469-a3a6-e1049f29aedc.vjnbiXaV2WKgSVpVz8MC4q5-LCXAFtKY">
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <div class="control-label">Gender</div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="gender" value="male" checked>
+                            <span>Male</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="gender" value="female">
+                            <span>Female</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="gender" value="either">
+                            <span>Either</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">Ethnicity</div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="ethnicity" value="white" checked>
+                            <span>White</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="ethnicity" value="black">
+                            <span>Black</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="ethnicity" value="hispanic">
+                            <span>Hispanic</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="ethnicity" value="asian">
+                            <span>Asian</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="ethnicity" value="poc">
+                            <span>POC</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="ethnicity" value="any">
+                            <span>Any</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        Age Range: <span class="value-display" id="ageDisplay">25 - 45</span>
+                    </div>
+                    <div style="position: relative; height: 30px; margin-top: 5px;">
+                        <input type="range" id="ageMin" min="18" max="80" value="25" step="1" 
+                            style="position: absolute; width: 100%; background: transparent;">
+                        <input type="range" id="ageMax" min="18" max="80" value="45" step="1"
+                            style="position: absolute; width: 100%;">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">Build</div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="build" value="thin">
+                            <span>Thin</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="build" value="average" checked>
+                            <span>Average</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="build" value="athletic">
+                            <span>Athletic</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="build" value="built">
+                            <span>Built</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="build" value="heavy">
+                            <span>Heavy</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">Height</div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="height" value="short">
+                            <span>Short</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="height" value="average" checked>
+                            <span>Average</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="height" value="tall">
+                            <span>Tall</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        Attractiveness: <span class="value-display" id="attractivenessDisplay">50</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="attractiveness" min="1" max="100" value="50" step="1">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        Uniqueness: <span class="value-display" id="uniquenessDisplay">50</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="uniqueness" min="1" max="100" value="50" step="1">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">Additional Keywords (optional)</div>
+                    <input type="text" id="keywords" class="keywords-input" placeholder="e.g., wavy hair, big nose, freckles, beard">
+                    <div class="keywords-hint">Separate multiple keywords with commas</div>
+                </div>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generate()">Generate Character</button>
+        </div>
+
+        <!-- RIGHT PANEL: OUTPUT -->
+        <div class="right-panel">
+            <div class="output-container">
+                <div class="placeholder" id="placeholder">
+                    <p>👈 Adjust parameters and click Generate</p>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <div>Generating your character...</div>
+                    <div style="font-size: 0.9em; margin-top: 10px;">This may take 10-30 seconds</div>
+                </div>
+
+                <div id="errorContainer"></div>
+
+                <div class="output" id="output">
+                    <img class="generated-image" id="generatedImage" alt="Generated character">
+                    <div class="button-group">
+                        <button class="download-btn" onclick="downloadImage()">Download Image</button>
+                        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copy Prompt</button>
+                    </div>
+                    <div class="prompt-text" id="promptText"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ageMin = document.getElementById('ageMin');
+        const ageMax = document.getElementById('ageMax');
+        const ageDisplay = document.getElementById('ageDisplay');
+        
+        const attractiveness = document.getElementById('attractiveness');
+        const attractivenessDisplay = document.getElementById('attractivenessDisplay');
+        
+        const uniqueness = document.getElementById('uniqueness');
+        const uniquenessDisplay = document.getElementById('uniquenessDisplay');
+
+        let currentImageUrl = '';
+        let currentPrompt = '';
+
+        function updateAgeDisplay() {
+            const min = parseInt(ageMin.value);
+            const max = parseInt(ageMax.value);
+            if (min > max) {
+                ageMin.value = max;
+            }
+            ageDisplay.textContent = `${ageMin.value} - ${ageMax.value}`;
+        }
+
+        ageMin.addEventListener('input', updateAgeDisplay);
+        ageMax.addEventListener('input', updateAgeDisplay);
+        
+        attractiveness.addEventListener('input', () => {
+            attractivenessDisplay.textContent = attractiveness.value;
+        });
+        
+        uniqueness.addEventListener('input', () => {
+            uniquenessDisplay.textContent = uniqueness.value;
+        });
+
+        function randomInRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getEthnicity(ethnicityChoice) {
+            if (ethnicityChoice === 'white') {
+                return 'Caucasian';
+            } else if (ethnicityChoice === 'black') {
+                return 'African';
+            } else if (ethnicityChoice === 'hispanic') {
+                return 'Hispanic';
+            } else if (ethnicityChoice === 'asian') {
+                const asianEthnicities = ['East Asian', 'South Asian', 'Southeast Asian'];
+                return asianEthnicities[randomInRange(0, asianEthnicities.length - 1)];
+            } else {
+                const pocEthnicities = [
+                    'African', 'East Asian', 'South Asian', 'Southeast Asian',
+                    'Hispanic', 'Middle Eastern', 'Pacific Islander', 'Mixed ethnicity'
+                ];
+                return pocEthnicities[randomInRange(0, pocEthnicities.length - 1)];
+            }
+        }
+
+        function getBodyType(buildChoice) {
+            const buildMap = {
+                'thin': 'slim, lean build',
+                'average': 'average build',
+                'athletic': 'athletic, fit build',
+                'built': 'muscular, built physique',
+                'heavy': 'heavy-set, stocky build'
+            };
+            return buildMap[buildChoice];
+        }
+
+        function getHeightDesc(heightChoice) {
+            const heightMap = {
+                'short': 'short stature',
+                'average': 'average height',
+                'tall': 'tall stature'
+            };
+            return heightMap[heightChoice];
+        }
+
+        function getAndrogynyDesc(androgynyValue, gender) {
+            // Removed androgyny feature - using balanced features for all
+            return 'balanced features';
+        }
+
+        function getAttractivenessDesc(value) {
+            if (value < 20) return 'homely, plain features';
+            if (value < 40) return 'ordinary appearance';
+            if (value < 60) return 'pleasant features';
+            if (value < 80) return 'attractive';
+            return 'classically beautiful, striking features';
+        }
+
+        function getUniquenessDesc(value) {
+            if (value < 30) return 'generic, average';
+            if (value < 50) return 'conventional';
+            if (value < 70) return 'somewhat distinctive';
+            return 'highly unique, memorable';
+        }
+
+        function buildPrompt() {
+            const age = randomInRange(parseInt(ageMin.value), parseInt(ageMax.value));
+            
+            let genderChoice = document.querySelector('input[name="gender"]:checked').value;
+            if (genderChoice === 'either') {
+                genderChoice = Math.random() > 0.5 ? 'male' : 'female';
+            }
+            
+            const ethnicityChoice = document.querySelector('input[name="ethnicity"]:checked').value;
+            const buildChoice = document.querySelector('input[name="build"]:checked').value;
+            const heightChoice = document.querySelector('input[name="height"]:checked').value;
+            const keywords = document.getElementById('keywords').value.trim();
+            
+            const ethnicity = getEthnicity(ethnicityChoice);
+            const bodyType = getBodyType(buildChoice);
+            const heightDesc = getHeightDesc(heightChoice);
+            const androgynyDesc = getAndrogynyDesc(50, genderChoice);
+            const attractDesc = getAttractivenessDesc(parseInt(attractiveness.value));
+            const uniqueDesc = getUniquenessDesc(parseInt(uniqueness.value));
+            
+            let prompt = `Professional headshot photograph, hyper-realistic, ${age} year old ${genderChoice}, ${ethnicity}, ${heightDesc}, ${bodyType}, ${androgynyDesc}, ${attractDesc}, ${uniqueDesc} facial features`;
+            
+            if (keywords) {
+                prompt += `, ${keywords}`;
+            }
+            
+            prompt += `, looking directly at camera, neutral expression, white background, studio lighting, high detail, photographic quality, sharp focus`;
+            
+            return prompt;
+        }
+
+        async function generate() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            
+            if (!apiKey) {
+                showError('Please enter your Reve API key');
+                return;
+            }
+
+            const prompt = buildPrompt();
+            currentPrompt = prompt;
+
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('output').classList.remove('active');
+            document.getElementById('errorContainer').innerHTML = '';
+
+            try {
+                const response = await fetch('https://artificial-casting-api.vercel.app/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        apiKey: apiKey,
+                        aspect_ratio: '1:1',
+                        version: 'latest'
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API Error (${response.status}): ${errorText}`);
+                }
+
+                const data = await response.json();
+
+                if (data.content_violation) {
+                    showError('Content policy violation detected. Please adjust your parameters and try again.');
+                    return;
+                }
+
+                if (!data.image) {
+                    throw new Error('No image data received from API');
+                }
+
+                const imageUrl = `data:image/png;base64,${data.image}`;
+                currentImageUrl = imageUrl;
+
+                document.getElementById('generatedImage').src = imageUrl;
+                document.getElementById('promptText').textContent = prompt;
+                document.getElementById('output').classList.add('active');
+
+                console.log(`Credits used: ${data.credits_used}, Credits remaining: ${data.credits_remaining}`);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message);
+            } finally {
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+
+        function showError(message) {
+            const errorContainer = document.getElementById('errorContainer');
+            errorContainer.innerHTML = `<div class="error">${message}</div>`;
+            document.getElementById('placeholder').style.display = 'none';
+        }
+
+        function copyPrompt() {
+            navigator.clipboard.writeText(currentPrompt).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.classList.add('copied');
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.textContent = 'Copy Prompt';
+                }, 2000);
+            });
+        }
+
+        function downloadImage() {
+            if (!currentImageUrl) return;
+            
+            const link = document.createElement('a');
+            link.href = currentImageUrl;
+            link.download = 'artificial-casting-character.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
