@@ -29,11 +29,12 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         version: "black-forest-labs/flux-1.1-pro-ultra",
-        input: {
-          prompt: prompt,
-          aspect_ratio: "1:1",
-          output_format: "png",
-          output_quality: 100
+     input: {
+  prompt: prompt,
+  aspect_ratio: "1:1",
+  output_format: "png",
+  output_quality: 69,
+  guidance: 0.5
         }
       })
     });
