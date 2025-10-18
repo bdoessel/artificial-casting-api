@@ -24,7 +24,8 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Prefer': 'wait'
       },
       body: JSON.stringify({
         version: "black-forest-labs/flux-1.1-pro",
@@ -46,8 +47,12 @@ export default async function handler(req, res) {
     
     // Poll for completion
     let result = prediction;
-    while (result.status !== 'succeeded' && result.status !== 'failed') {
+    let attempts = 0;
+    const maxAttempts = 60; // 60 seconds max
+    
+    while (result.status !== 'succeeded' && result.status !== 'failed' && attempts < maxAttempts) {
       await new Promise(resolve => setTimeout(resolve, 1000));
+      attempts++;
       
       const pollResponse = await fetch(`https://api.replicate.com/v1/predictions/${result.id}`, {
         headers: {
@@ -62,9 +67,25 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Generation failed', details: result.error });
     }
 
+    if (result.status !== 'succeeded') {
+      return res.status(500).json({ error: 'Generation timed out' });
+    }
+
+    // FLUX returns output as array of URLs or single URL
+    let imageUrl = null;
+    if (Array.isArray(result.output)) {
+      imageUrl = result.output[0];
+    } else if (typeof result.output === 'string') {
+      imageUrl = result.output;
+    }
+
+    if (!imageUrl) {
+      return res.status(500).json({ error: 'No image URL in response', debug: result });
+    }
+
     // Return the image URL
     return res.status(200).json({
-      image: result.output[0],
+      image: imageUrl,
       request_id: result.id
     });
 
