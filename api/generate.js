@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         'Prefer': 'wait'
       },
       body: JSON.stringify({
-        version: "black-forest-labs/flux-1.1-pro",
+        version: "black-forest-labs/flux-1.1-pro-ultra",
         input: {
           prompt: prompt,
           aspect_ratio: "1:1",
