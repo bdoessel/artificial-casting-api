@@ -14,8 +14,14 @@
         body {
             font-family: 'Courier New', Courier, monospace;
             background: linear-gradient(135deg, #52D6A9 0%, #3FBFA0 100%);
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        @media (max-width: 1024px) {
+            body {
+                overflow: auto;
+            }
         }
 
         .main-container {
@@ -23,6 +29,28 @@
             grid-template-columns: 1fr 1fr;
             height: 100vh;
             gap: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            .left-panel {
+                border-right: none;
+                border-bottom: 3px solid #3FBFA0;
+            }
+            
+            .right-panel {
+                min-height: auto;
+                padding: 20px;
+            }
+            
+            .output-container {
+                min-height: auto;
+            }
         }
 
         .left-panel {
