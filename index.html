@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artificial Casting</title>
+    <title>Artificial Casting - FLUX</title>
     <style>
         * {
             margin: 0;
@@ -38,7 +38,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 40px;
             overflow-y: auto;
         }
 
@@ -51,6 +51,16 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
+        }
+
+        .version-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.5em;
+            margin-left: 10px;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         .api-section {
@@ -169,26 +179,6 @@
             font-size: 0.85em;
         }
 
-        .gender-control {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .androgyny-slider {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .androgyny-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75em;
-            color: #888;
-        }
-
         .generate-btn {
             width: 100%;
             padding: 15px;
@@ -232,14 +222,19 @@
             margin-top: 4px;
         }
 
-        /* Right Panel Styles */
         .output-container {
             width: 100%;
-            height: 100%;
+            max-width: 800px;
+            background: white;
+            border: 3px solid #3FBFA0;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 650px;
         }
 
         .placeholder {
@@ -284,6 +279,7 @@
 
         .generated-image {
             width: 100%;
+            max-width: 800px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             margin-bottom: 20px;
@@ -339,7 +335,6 @@
             font-size: 0.9em;
         }
 
-        /* Scrollbar Styling */
         .left-panel::-webkit-scrollbar, .right-panel::-webkit-scrollbar, .prompt-text::-webkit-scrollbar {
             width: 8px;
         }
@@ -360,14 +355,10 @@
 </head>
 <body>
     <div class="main-container">
-        <!-- LEFT PANEL: INPUTS -->
         <div class="left-panel">
             <h1>Artificial Casting</h1>
             
-            <div class="api-section">
-                <label for="apiKey">Key:</label>
-                <input type="text" id="apiKey" placeholder="Enter your API key" value="papi.c9a7832d-7b93-4469-a3a6-e1049f29aedc.vjnbiXaV2WKgSVpVz8MC4q5-LCXAFtKY">
-            </div>
+            <input type="hidden" id="apiKey" value="r8_Kwg3XnljeFx5sPMrRh2Pamqd5Ea08jw1wZCjC">
 
             <div class="controls">
                 <div class="control-group">
@@ -383,7 +374,7 @@
                         </label>
                         <label>
                             <input type="radio" name="gender" value="either">
-                            <span>Either</span>
+                            <span>Random</span>
                         </label>
                     </div>
                 </div>
@@ -413,7 +404,7 @@
                         </label>
                         <label>
                             <input type="radio" name="ethnicity" value="any">
-                            <span>Any</span>
+                            <span>Random</span>
                         </label>
                     </div>
                 </div>
@@ -453,60 +444,48 @@
                             <input type="radio" name="build" value="heavy">
                             <span>Heavy</span>
                         </label>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <div class="control-label">Height</div>
-                    <div class="radio-group">
                         <label>
-                            <input type="radio" name="height" value="short">
-                            <span>Short</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="height" value="average" checked>
-                            <span>Average</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="height" value="tall">
-                            <span>Tall</span>
+                            <input type="radio" name="build" value="random">
+                            <span>Random</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <div class="control-label">Type</div>
+                    <div class="control-label">Genre</div>
                     <div class="radio-group">
                         <label>
-                            <input type="radio" name="type" value="none" checked>
-                            <span>None</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="type" value="dramatic">
+                            <input type="radio" name="type" value="dramatic" checked>
                             <span>Dramatic</span>
                         </label>
                         <label>
                             <input type="radio" name="type" value="comedic">
                             <span>Comedic</span>
                         </label>
+                        <label>
+                            <input type="radio" name="type" value="none">
+                            <span>Random</span>
+                        </label>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <div class="control-label">
-                        Attractiveness: <span class="value-display" id="attractivenessDisplay">50</span>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75em; color: #888; margin-bottom: 5px;">
+                        <span>Ugly</span>
+                        <span>Hot</span>
                     </div>
                     <div class="slider-container">
-                        <input type="range" id="attractiveness" min="1" max="100" value="50" step="1">
+                        <input type="range" id="attractiveness" min="1" max="10" value="5" step="1">
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <div class="control-label">
-                        Uniqueness: <span class="value-display" id="uniquenessDisplay">50</span>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75em; color: #888; margin-bottom: 5px;">
+                        <span>Basic</span>
+                        <span>Unique</span>
                     </div>
                     <div class="slider-container">
-                        <input type="range" id="uniqueness" min="1" max="100" value="50" step="1">
+                        <input type="range" id="chaos" min="1" max="10" value="5" step="1">
                     </div>
                 </div>
 
@@ -520,7 +499,6 @@
             <button class="generate-btn" id="generateBtn" onclick="generate()">Generate Character</button>
         </div>
 
-        <!-- RIGHT PANEL: OUTPUT -->
         <div class="right-panel">
             <div class="output-container">
                 <div class="placeholder" id="placeholder">
@@ -529,8 +507,8 @@
 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <div>Generating your character...</div>
-                    <div style="font-size: 0.9em; margin-top: 10px;">This may take 10-30 seconds</div>
+                    <div>Now casting...</div>
+                    <div style="font-size: 0.9em; margin-top: 10px;">One moment please</div>
                 </div>
 
                 <div id="errorContainer"></div>
@@ -553,10 +531,7 @@
         const ageDisplay = document.getElementById('ageDisplay');
         
         const attractiveness = document.getElementById('attractiveness');
-        const attractivenessDisplay = document.getElementById('attractivenessDisplay');
-        
-        const uniqueness = document.getElementById('uniqueness');
-        const uniquenessDisplay = document.getElementById('uniquenessDisplay');
+        const chaos = document.getElementById('chaos');
 
         let currentImageUrl = '';
         let currentPrompt = '';
@@ -572,14 +547,6 @@
 
         ageMin.addEventListener('input', updateAgeDisplay);
         ageMax.addEventListener('input', updateAgeDisplay);
-        
-        attractiveness.addEventListener('input', () => {
-            attractivenessDisplay.textContent = attractiveness.value;
-        });
-        
-        uniqueness.addEventListener('input', () => {
-            uniquenessDisplay.textContent = uniqueness.value;
-        });
 
         function randomInRange(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -602,53 +569,12 @@
                 ];
                 return allEthnicities[randomInRange(0, allEthnicities.length - 1)];
             } else {
-                // POC
                 const pocEthnicities = [
                     'African', 'East Asian', 'South Asian', 'Southeast Asian',
                     'Hispanic', 'Middle Eastern', 'Pacific Islander', 'Mixed ethnicity'
                 ];
                 return pocEthnicities[randomInRange(0, pocEthnicities.length - 1)];
             }
-        }
-
-        function getBodyType(buildChoice) {
-            const buildMap = {
-                'thin': 'slim, lean build',
-                'average': 'average build',
-                'athletic': 'athletic, fit build',
-                'built': 'muscular, built physique',
-                'heavy': 'heavy-set, stocky build'
-            };
-            return buildMap[buildChoice];
-        }
-
-        function getHeightDesc(heightChoice) {
-            const heightMap = {
-                'short': 'short stature',
-                'average': 'average height',
-                'tall': 'tall stature'
-            };
-            return heightMap[heightChoice];
-        }
-
-        function getAndrogynyDesc(androgynyValue, gender) {
-            // Removed androgyny feature - using balanced features for all
-            return 'balanced features';
-        }
-
-        function getAttractivenessDesc(value) {
-            if (value < 20) return 'homely, plain features';
-            if (value < 40) return 'ordinary appearance';
-            if (value < 60) return 'pleasant features';
-            if (value < 80) return 'attractive';
-            return 'classically beautiful, striking features';
-        }
-
-        function getUniquenessDesc(value) {
-            if (value < 30) return 'generic, average';
-            if (value < 50) return 'conventional';
-            if (value < 70) return 'somewhat distinctive';
-            return 'highly unique, memorable';
         }
 
         function buildPrompt() {
@@ -660,24 +586,124 @@
             }
             
             const ethnicityChoice = document.querySelector('input[name="ethnicity"]:checked').value;
-            const buildChoice = document.querySelector('input[name="build"]:checked').value;
-            const heightChoice = document.querySelector('input[name="height"]:checked').value;
+            let buildChoice = document.querySelector('input[name="build"]:checked').value;
+            
+            // Handle random build selection
+            if (buildChoice === 'random') {
+                const builds = ['thin', 'average', 'athletic', 'built', 'heavy'];
+                buildChoice = builds[randomInRange(0, builds.length - 1)];
+            }
+            
+            const typeChoice = document.querySelector('input[name="type"]:checked').value;
             const keywords = document.getElementById('keywords').value.trim();
             
             const ethnicity = getEthnicity(ethnicityChoice);
-            const bodyType = getBodyType(buildChoice);
-            const heightDesc = getHeightDesc(heightChoice);
-            const androgynyDesc = getAndrogynyDesc(50, genderChoice);
-            const attractDesc = getAttractivenessDesc(parseInt(attractiveness.value));
-            const uniqueDesc = getUniquenessDesc(parseInt(uniqueness.value));
             
-            let prompt = `Professional headshot photograph, hyper-realistic, ${age} year old ${genderChoice}, ${ethnicity}, ${heightDesc}, ${bodyType}, ${androgynyDesc}, ${attractDesc}, ${uniqueDesc} facial features`;
+            const attractivenessValue = parseInt(attractiveness.value);
+            const chaosValue = parseInt(chaos.value);
             
-            if (keywords) {
-                prompt += `, ${keywords}`;
+            // Build simple descriptors
+            const buildMap = {
+                'thin': 'skinny',
+                'average': 'average weight',
+                'athletic': 'physically fit',
+                'built': 'muscular',
+                'heavy': 'fat'
+            };
+            
+            // Build the description parts
+            let descriptors = [];
+            
+            // Type selection overrides chaos slider for dramatic/comedic
+            if (typeChoice === 'comedic') {
+                descriptors.push('kooky');
+            } else if (typeChoice === 'dramatic') {
+                descriptors.push('serious');
             }
             
-            prompt += `, looking directly at camera, neutral expression, white background, studio lighting, high detail, photographic quality, sharp focus`;
+            // Attractiveness (1-10 scale)
+            if (attractivenessValue <= 2) {
+                descriptors.push('very ugly');
+            } else if (attractivenessValue <= 4) {
+                descriptors.push('unattractive');
+            } else if (attractivenessValue <= 6) {
+                descriptors.push('average-looking');
+            } else if (attractivenessValue <= 8) {
+                descriptors.push('attractive');
+            } else if (attractivenessValue === 9) {
+                descriptors.push('very attractive');
+            } else {
+                descriptors.push('strikingly beautiful, model-like features');
+            }
+            
+            // Build
+            if (buildMap[buildChoice]) {
+                descriptors.push(buildMap[buildChoice]);
+            }
+            
+            // Age
+            descriptors.push(`${age} year old`);
+            
+            // Ethnicity (make it lowercase and simpler)
+            let simpleEthnicity = ethnicity.toLowerCase();
+            if (simpleEthnicity === 'caucasian') simpleEthnicity = 'white';
+            if (simpleEthnicity === 'east asian' || simpleEthnicity === 'south asian' || simpleEthnicity === 'southeast asian') {
+                simpleEthnicity = 'asian';
+            }
+            descriptors.push(simpleEthnicity);
+            
+            // Gender
+            descriptors.push(genderChoice);
+            
+            // Actor type
+            if (typeChoice === 'comedic') {
+                descriptors.push('comedy actor');
+            } else if (typeChoice === 'dramatic') {
+                descriptors.push('dramatic actor');
+            } else {
+                descriptors.push('actor');
+            }
+            
+            // Build final prompt with chaos features integrated naturally
+            let chaosFeatures = [];
+            if (chaosValue > 2) {
+                const allFeatures = [
+                    'asymmetrical features',
+                    'unique nose',
+                    'distinctive eyebrows',
+                    'unusual hairline',
+                    'crooked smile',
+                    'prominent ears',
+                    'uneven eyes',
+                    'strong facial features',
+                    'distinctive chin',
+                    'interesting face shape'
+                ];
+                
+                let numFeatures = 0;
+                if (chaosValue <= 4) numFeatures = 1;
+                else if (chaosValue <= 6) numFeatures = 2;
+                else if (chaosValue <= 8) numFeatures = 3;
+                else numFeatures = 4;
+                
+                while (chaosFeatures.length < numFeatures) {
+                    const feature = allFeatures[randomInRange(0, allFeatures.length - 1)];
+                    if (!chaosFeatures.includes(feature)) {
+                        chaosFeatures.push(feature);
+                    }
+                }
+            }
+            
+            // Combine all features
+            let allDescriptors = [...descriptors, ...chaosFeatures];
+            if (keywords) {
+                const keywordList = keywords.split(',').map(k => k.trim()).filter(k => k);
+                allDescriptors = [...allDescriptors, ...keywordList];
+            }
+            
+            // Build final prompt
+            let prompt = `${allDescriptors.join(', ')}, realistic headshot photo on #5B7A96 blue background from a casting session, natural lighting, photographed from shoulders up, neutral expression, looking directly at camera, digital photography, clean and sharp, authentic photography, real person`;
+
             
             return prompt;
         }
@@ -686,7 +712,7 @@
             const apiKey = document.getElementById('apiKey').value.trim();
             
             if (!apiKey) {
-                showError('Please enter your Reve API key');
+                showError('Please enter your Replicate API key');
                 return;
             }
 
@@ -707,9 +733,7 @@
                     },
                     body: JSON.stringify({
                         prompt: prompt,
-                        apiKey: apiKey,
-                        aspect_ratio: '1:1',
-                        version: 'latest'
+                        apiKey: apiKey
                     })
                 });
 
@@ -720,23 +744,15 @@
 
                 const data = await response.json();
 
-                if (data.content_violation) {
-                    showError('Content policy violation detected. Please adjust your parameters and try again.');
-                    return;
-                }
-
                 if (!data.image) {
                     throw new Error('No image data received from API');
                 }
 
-                const imageUrl = `data:image/png;base64,${data.image}`;
-                currentImageUrl = imageUrl;
+                currentImageUrl = data.image;
 
-                document.getElementById('generatedImage').src = imageUrl;
+                document.getElementById('generatedImage').src = data.image;
                 document.getElementById('promptText').textContent = prompt;
                 document.getElementById('output').classList.add('active');
-
-                console.log(`Credits used: ${data.credits_used}, Credits remaining: ${data.credits_remaining}`);
 
             } catch (error) {
                 console.error('Error:', error);
