@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        version: "47a3c88a587bc1b8fc31b127ae2f34e899f6bad7f769f6d790e0f0ae8a3b25e5",
+        version: "black-forest-labs/flux-1.1-pro",
         input: {
           prompt: prompt,
           aspect_ratio: "1:1",
