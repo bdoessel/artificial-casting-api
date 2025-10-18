@@ -29,12 +29,14 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         version: "black-forest-labs/flux-1.1-pro-ultra",
-     input: {
-  prompt: prompt,
-  aspect_ratio: "1:1",
-  output_format: "png",
-  output_quality: 69,
-  guidance: 0.5
+        input: {
+          prompt: prompt,
+          aspect_ratio: "1:1",
+          output_format: "png",
+          output_quality: 100,
+          guidance: 0.1,
+          safety_tolerance: 6,
+          raw: true
         }
       })
     });
@@ -49,7 +51,7 @@ export default async function handler(req, res) {
     // Poll for completion
     let result = prediction;
     let attempts = 0;
-    const maxAttempts = 60; // 60 seconds max
+    const maxAttempts = 60;
     
     while (result.status !== 'succeeded' && result.status !== 'failed' && attempts < maxAttempts) {
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -72,7 +74,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Generation timed out' });
     }
 
-    // FLUX returns output as array of URLs or single URL
     let imageUrl = null;
     if (Array.isArray(result.output)) {
       imageUrl = result.output[0];
@@ -84,7 +85,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'No image URL in response', debug: result });
     }
 
-    // Return the image URL
     return res.status(200).json({
       image: imageUrl,
       request_id: result.id
