@@ -323,6 +323,11 @@
             color: #555;
             max-height: 120px;
             overflow-y: auto;
+            display: none;
+        }
+        
+        .prompt-text.visible {
+            display: block;
         }
 
         .error {
@@ -515,10 +520,7 @@
 
                 <div class="output" id="output">
                     <img class="generated-image" id="generatedImage" alt="Generated character">
-                    <div class="button-group">
-                        <button class="download-btn" onclick="downloadImage()">Download Image</button>
-                        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copy Prompt</button>
-                    </div>
+                    <button class="download-btn" onclick="downloadImage()" style="width: 100%; margin-bottom: 15px;">Download Image</button>
                     <div class="prompt-text" id="promptText"></div>
                 </div>
             </div>
@@ -535,6 +537,20 @@
 
         let currentImageUrl = '';
         let currentPrompt = '';
+        let promptVisible = false;
+
+        // Secret keyboard shortcut: Shift + P to toggle prompt visibility
+        document.addEventListener('keydown', function(e) {
+            if (e.shiftKey && e.key === 'P') {
+                promptVisible = !promptVisible;
+                const promptElement = document.getElementById('promptText');
+                if (promptVisible) {
+                    promptElement.classList.add('visible');
+                } else {
+                    promptElement.classList.remove('visible');
+                }
+            }
+        });
 
         function updateAgeDisplay() {
             const min = parseInt(ageMin.value);
@@ -767,18 +783,6 @@
             const errorContainer = document.getElementById('errorContainer');
             errorContainer.innerHTML = `<div class="error">${message}</div>`;
             document.getElementById('placeholder').style.display = 'none';
-        }
-
-        function copyPrompt() {
-            navigator.clipboard.writeText(currentPrompt).then(() => {
-                const btn = document.getElementById('copyBtn');
-                btn.classList.add('copied');
-                btn.textContent = '✓ Copied!';
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    btn.textContent = 'Copy Prompt';
-                }, 2000);
-            });
         }
 
         function downloadImage() {
