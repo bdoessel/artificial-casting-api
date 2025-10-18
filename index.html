@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artificial Casting - FLUX</title>
+    <title>Artificial Casting</title>
     <style>
         * {
             margin: 0;
@@ -79,16 +79,6 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
-        }
-
-        .version-badge {
-            background: #667eea;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.5em;
-            margin-left: 10px;
-            font-family: 'Courier New', Courier, monospace;
         }
 
         .api-section {
@@ -313,14 +303,7 @@
             margin-bottom: 20px;
         }
 
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .copy-btn, .download-btn {
-            flex: 1;
+        .download-btn {
             padding: 12px 20px;
             background: #3FBFA0;
             color: white;
@@ -332,12 +315,8 @@
             font-weight: 600;
         }
 
-        .copy-btn:hover, .download-btn:hover {
+        .download-btn:hover {
             background: #35A68D;
-        }
-
-        .copy-btn.copied {
-            background: #4caf50;
         }
 
         .prompt-text {
@@ -528,6 +507,11 @@
             </div>
 
             <button class="generate-btn" id="generateBtn" onclick="generate()">Generate Character</button>
+            
+            <div class="api-section" style="margin-top: 20px;">
+                <label for="apiKey">Key:</label>
+                <input type="text" id="apiKey" placeholder="Enter your key here">
+            </div>
         </div>
 
         <div class="right-panel">
@@ -745,7 +729,6 @@
             
             // Build final prompt
             let prompt = `${allDescriptors.join(', ')}, realistic headshot photo on #5B7A96 blue background from a casting session, natural lighting, photographed from shoulders up, neutral expression, looking directly at camera, digital photography, clean and sharp, authentic photography, real person`;
-
             
             return prompt;
         }
@@ -754,7 +737,7 @@
             const apiKey = document.getElementById('apiKey').value.trim();
             
             if (!apiKey) {
-                showError('Please enter your Replicate API key');
+                showError('Please enter your API key');
                 return;
             }
 
