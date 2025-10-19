@@ -431,9 +431,9 @@
                         Age Range: <span class="value-display" id="ageDisplay">25 - 45</span>
                     </div>
                     <div style="position: relative; height: 30px; margin-top: 5px;">
-                        <input type="range" id="ageMin" min="18" max="80" value="25" step="1" 
+                        <input type="range" id="ageMin" min="18" max="100" value="25" step="1" 
                             style="position: absolute; width: 100%; background: transparent;">
-                        <input type="range" id="ageMax" min="18" max="80" value="45" step="1"
+                        <input type="range" id="ageMax" min="18" max="100" value="45" step="1"
                             style="position: absolute; width: 100%;">
                     </div>
                 </div>
@@ -588,17 +588,30 @@
             } else if (ethnicityChoice === 'hispanic') {
                 return 'Hispanic';
             } else if (ethnicityChoice === 'asian') {
-                const asianEthnicities = ['East Asian', 'South Asian', 'Southeast Asian'];
-                return asianEthnicities[randomInRange(0, asianEthnicities.length - 1)];
+                const asianCountries = ['Japanese', 'Korean', 'Chinese', 'Filipino', 'Vietnamese', 'Thai', 'Indonesian'];
+                
+                // 50% chance of single country, 50% chance of mixed
+                if (Math.random() > 0.5) {
+                    // Single country
+                    return asianCountries[randomInRange(0, asianCountries.length - 1)];
+                } else {
+                    // Mixed - pick two different countries
+                    const first = asianCountries[randomInRange(0, asianCountries.length - 1)];
+                    let second = asianCountries[randomInRange(0, asianCountries.length - 1)];
+                    while (second === first) {
+                        second = asianCountries[randomInRange(0, asianCountries.length - 1)];
+                    }
+                    return `half ${first} half ${second}`;
+                }
             } else if (ethnicityChoice === 'any') {
                 const allEthnicities = [
-                    'Caucasian', 'African', 'East Asian', 'South Asian', 'Southeast Asian',
+                    'Caucasian', 'African', 'Japanese', 'Korean', 'Chinese', 'Filipino', 'Vietnamese',
                     'Hispanic', 'Middle Eastern', 'Pacific Islander', 'Mixed ethnicity'
                 ];
                 return allEthnicities[randomInRange(0, allEthnicities.length - 1)];
             } else {
                 const pocEthnicities = [
-                    'African', 'East Asian', 'South Asian', 'Southeast Asian',
+                    'African', 'Japanese', 'Korean', 'Chinese', 'Filipino', 'Vietnamese',
                     'Hispanic', 'Middle Eastern', 'Pacific Islander', 'Mixed ethnicity'
                 ];
                 return pocEthnicities[randomInRange(0, pocEthnicities.length - 1)];
@@ -635,8 +648,7 @@
                 'thin': 'skinny',
                 'average': 'average weight',
                 'athletic': 'physically fit',
-                'built': 'muscular',
-                'heavy': 'fat'
+                'built': 'muscular'
             };
             
             // Build the description parts
@@ -664,13 +676,24 @@
                 descriptors.push('strikingly beautiful, model-like features');
             }
             
-            // Build
-            if (buildMap[buildChoice]) {
+            // Build - handle heavy with weight, others normally
+            if (buildChoice === 'heavy') {
+                const weight = randomInRange(250, 375);
+                descriptors.push(`very overweight, ${weight} pounds, large body, fat`);
+            } else if (buildMap[buildChoice]) {
                 descriptors.push(buildMap[buildChoice]);
             }
             
             // Age
             descriptors.push(`${age} year old`);
+            
+            // Add elderly descriptors for older ages
+            if (age >= 75) {
+                descriptors.push('elderly, aged appearance, wrinkled skin');
+            }
+            if (age >= 85) {
+                descriptors.push('very elderly, deeply wrinkled, white hair');
+            }
             
             // Ethnicity (make it lowercase and simpler)
             let simpleEthnicity = ethnicity.toLowerCase();
