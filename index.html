@@ -677,6 +677,19 @@
             // Build the description parts
             let descriptors = [];
             
+            // Start with gender and actor type for emphasis
+            let actorType = '';
+            if (typeChoice === 'comedic') {
+                actorType = `${genderChoice} comedy actor`;
+            } else if (typeChoice === 'dramatic') {
+                actorType = `${genderChoice} dramatic actor`;
+            } else {
+                actorType = `${genderChoice} actor`;
+            }
+            
+            // This will be at the very start of the prompt
+            let promptStart = `A photo of a ${actorType},`;
+            
             // Attractiveness (1-10 scale)
             let attractivenessDescriptor = '';
             if (attractivenessValue <= 2) {
@@ -697,7 +710,7 @@
             if (typeChoice === 'comedic') {
                 // For comedic, keep attractiveness but add quirky personality
                 descriptors.push(attractivenessDescriptor);
-                descriptors.push('comedic personality, expressive face');
+                descriptors.push('expressive face');
             } else if (typeChoice === 'dramatic') {
                 descriptors.push('serious');
                 descriptors.push(attractivenessDescriptor);
@@ -713,6 +726,9 @@
             } else if (buildMap[buildChoice]) {
                 descriptors.push(buildMap[buildChoice]);
             }
+            
+            // Gender - put early and emphasize
+            // (Already included in promptStart)
             
             // Age
             descriptors.push(`${age} year old`);
@@ -732,9 +748,6 @@
                 simpleEthnicity = 'asian';
             }
             descriptors.push(simpleEthnicity);
-            
-            // Gender
-            descriptors.push(genderChoice);
             
             // Actor type
             if (typeChoice === 'comedic') {
@@ -800,7 +813,7 @@
             }
             
             // Build final prompt
-            let prompt = `${allDescriptors.join(', ')}, realistic headshot photo on #5B7A96 blue background from a casting session, natural lighting, photographed from shoulders up, neutral expression, looking directly at camera, digital photography, clean and sharp, authentic photography, real person`;
+            let prompt = `${promptStart} ${allDescriptors.join(', ')}, realistic headshot photo on #5B7A96 blue background from a casting session, natural lighting, photographed from shoulders up, neutral expression, looking directly at camera, digital photography, clean and sharp, authentic photography, real person`;
             
             return prompt;
         }
