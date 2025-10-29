@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Courier New', Courier, monospace;
-            background: linear-gradient(135deg, #52D6A9 0%, #3FBFA0 100%);
+            background: #1a1a1a;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -40,7 +40,7 @@
             
             .left-panel {
                 border-right: none;
-                border-bottom: 3px solid #3FBFA0;
+                border-bottom: 2px solid #f5f5f5;
             }
             
             .right-panel {
@@ -54,14 +54,14 @@
         }
 
         .left-panel {
-            background: white;
+            background: #0a0a0a;
             padding: 30px;
             overflow-y: auto;
-            border-right: 3px solid #3FBFA0;
+            border-right: 2px solid #f5f5f5;
         }
 
         .right-panel {
-            background: #f8f9fa;
+            background: #1a1a1a;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -71,7 +71,7 @@
         }
 
         h1 {
-            color: #333;
+            color: #999;
             margin-bottom: 20px;
             text-align: center;
             font-size: 1.8em;
@@ -84,15 +84,15 @@
         .api-section {
             margin-bottom: 20px;
             padding: 15px;
-            background: #f8f9fa;
+            background: #2a2a2a;
             border-radius: 8px;
-            border: 2px solid #e0e0e0;
+            border: 1px solid #3a3a3a;
         }
 
         .api-section label {
             display: block;
             font-weight: 600;
-            color: #555;
+            color: #999;
             margin-bottom: 6px;
             font-size: 0.85em;
         }
@@ -100,10 +100,12 @@
         .api-section input {
             width: 100%;
             padding: 10px;
-            border: 2px solid #e0e0e0;
+            border: 1px solid #3a3a3a;
             border-radius: 6px;
             font-size: 0.8em;
             font-family: monospace;
+            background: #1a1a1a;
+            color: #999;
         }
 
         .controls {
@@ -120,12 +122,12 @@
 
         .control-label {
             font-weight: 600;
-            color: #555;
+            color: #999;
             font-size: 0.85em;
         }
 
         .value-display {
-            color: #3FBFA0;
+            color: #999;
             font-weight: 600;
             font-size: 0.85em;
         }
@@ -140,45 +142,46 @@
             width: 100%;
             height: 6px;
             border-radius: 5px;
-            background: #e0e0e0;
+            background: #3a3a3a;
             outline: none;
             -webkit-appearance: none;
         }
         
         input[type="range"]::-webkit-slider-runnable-track {
             height: 6px;
-            background: #e0e0e0;
+            background: #3a3a3a;
             border-radius: 5px;
         }
         
         input[type="range"]::-moz-range-track {
             height: 6px;
-            background: #e0e0e0;
+            background: #3a3a3a;
             border-radius: 5px;
         }
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: #3FBFA0;
+            background: #0a0a0a;
+            border: 2px solid #f5f5f5;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            margin-top: -5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            margin-top: -7px;
             position: relative;
             z-index: 100;
         }
 
         input[type="range"]::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: #3FBFA0;
+            background: #0a0a0a;
+            border: 2px solid #f5f5f5;
             cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
             position: relative;
             z-index: 100;
         }
@@ -195,25 +198,43 @@
             gap: 6px;
             cursor: pointer;
             font-size: 0.85em;
+            color: #999;
+        }
+        
+        .radio-group input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f5f5f5;
+            border-radius: 50%;
+            background: #f5f5f5;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .radio-group input[type="radio"]:checked {
+            background: #0a0a0a;
+            border: 2px solid #f5f5f5;
         }
 
         .generate-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #52D6A9 0%, #3FBFA0 100%);
-            color: white;
+            background: #f5f5f5;
+            color: #0a0a0a;
             border: none;
             border-radius: 10px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(63, 191, 160, 0.4);
+            box-shadow: 0 4px 15px rgba(245, 245, 245, 0.2);
         }
 
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(63, 191, 160, 0.6);
+            box-shadow: 0 6px 20px rgba(245, 245, 245, 0.3);
         }
 
         .generate-btn:active {
@@ -229,25 +250,27 @@
         .keywords-input {
             width: 100%;
             padding: 10px;
-            border: 2px solid #e0e0e0;
+            border: 1px solid #3a3a3a;
             border-radius: 6px;
             font-size: 0.85em;
+            background: #1a1a1a;
+            color: #999;
         }
 
         .keywords-hint {
             font-size: 0.75em;
-            color: #888;
+            color: #666;
             margin-top: 4px;
         }
 
         .output-container {
             width: 100%;
             max-width: 800px;
-            background: white;
-            border: 3px solid #3FBFA0;
+            background: #0a0a0a;
+            border: 2px solid #f5f5f5;
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -264,14 +287,14 @@
 
         .placeholder {
             text-align: center;
-            color: #999;
+            color: #666;
             font-size: 1.2em;
         }
 
         .loading {
             display: none;
             text-align: center;
-            color: #555;
+            color: #999;
         }
 
         .loading.active {
@@ -279,8 +302,8 @@
         }
 
         .spinner {
-            border: 4px solid #e0e0e0;
-            border-top: 4px solid #3FBFA0;
+            border: 4px solid #3a3a3a;
+            border-top: 4px solid #f5f5f5;
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -312,8 +335,8 @@
 
         .download-btn {
             padding: 12px 20px;
-            background: #3FBFA0;
-            color: white;
+            background: #f5f5f5;
+            color: #0a0a0a;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -323,18 +346,18 @@
         }
 
         .download-btn:hover {
-            background: #35A68D;
+            background: #e0e0e0;
         }
 
         .prompt-text {
-            background: white;
+            background: #1a1a1a;
             padding: 12px;
             border-radius: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #3a3a3a;
             font-family: 'Courier New', monospace;
             font-size: 0.75em;
             line-height: 1.5;
-            color: #555;
+            color: #999;
             max-height: 120px;
             overflow-y: auto;
             display: none;
@@ -345,9 +368,9 @@
         }
 
         .error {
-            background: #fee;
-            border: 2px solid #fcc;
-            color: #c33;
+            background: #2a1515;
+            border: 2px solid #3a1a1a;
+            color: #ff6b6b;
             padding: 15px;
             border-radius: 8px;
             margin: 20px;
@@ -359,16 +382,16 @@
         }
 
         .left-panel::-webkit-scrollbar-track, .right-panel::-webkit-scrollbar-track, .prompt-text::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #1a1a1a;
         }
 
         .left-panel::-webkit-scrollbar-thumb, .right-panel::-webkit-scrollbar-thumb, .prompt-text::-webkit-scrollbar-thumb {
-            background: #3FBFA0;
+            background: #f5f5f5;
             border-radius: 4px;
         }
 
         .left-panel::-webkit-scrollbar-thumb:hover, .right-panel::-webkit-scrollbar-thumb:hover, .prompt-text::-webkit-scrollbar-thumb:hover {
-            background: #35A68D;
+            background: #e0e0e0;
         }
     </style>
 </head>
@@ -648,32 +671,39 @@
                 'thin': 'skinny',
                 'average': 'average weight',
                 'athletic': 'physically fit',
-                'built': 'muscular'
+                'built': 'strong build'
             };
             
             // Build the description parts
             let descriptors = [];
             
-            // Type selection overrides chaos slider for dramatic/comedic
-            if (typeChoice === 'comedic') {
-                descriptors.push('kooky');
-            } else if (typeChoice === 'dramatic') {
-                descriptors.push('serious');
+            // Attractiveness (1-10 scale)
+            let attractivenessDescriptor = '';
+            if (attractivenessValue <= 2) {
+                attractivenessDescriptor = 'very ugly';
+            } else if (attractivenessValue <= 4) {
+                attractivenessDescriptor = 'unattractive';
+            } else if (attractivenessValue <= 6) {
+                attractivenessDescriptor = 'average-looking';
+            } else if (attractivenessValue <= 8) {
+                attractivenessDescriptor = 'attractive';
+            } else if (attractivenessValue === 9) {
+                attractivenessDescriptor = 'very attractive';
+            } else {
+                attractivenessDescriptor = 'strikingly beautiful, model-like features';
             }
             
-            // Attractiveness (1-10 scale)
-            if (attractivenessValue <= 2) {
-                descriptors.push('very ugly');
-            } else if (attractivenessValue <= 4) {
-                descriptors.push('unattractive');
-            } else if (attractivenessValue <= 6) {
-                descriptors.push('average-looking');
-            } else if (attractivenessValue <= 8) {
-                descriptors.push('attractive');
-            } else if (attractivenessValue === 9) {
-                descriptors.push('very attractive');
+            // Type selection - modify attractiveness if needed
+            if (typeChoice === 'comedic') {
+                // For comedic, keep attractiveness but add quirky personality
+                descriptors.push(attractivenessDescriptor);
+                descriptors.push('comedic personality, expressive face');
+            } else if (typeChoice === 'dramatic') {
+                descriptors.push('serious');
+                descriptors.push(attractivenessDescriptor);
             } else {
-                descriptors.push('strikingly beautiful, model-like features');
+                // Random/none - just use attractiveness
+                descriptors.push(attractivenessDescriptor);
             }
             
             // Build - handle heavy with weight, others normally
@@ -718,18 +748,32 @@
             // Build final prompt with chaos features integrated naturally
             let chaosFeatures = [];
             if (chaosValue > 2) {
-                const allFeatures = [
-                    'asymmetrical features',
-                    'unique nose',
-                    'distinctive eyebrows',
-                    'unusual hairline',
-                    'crooked smile',
-                    'prominent ears',
-                    'uneven eyes',
-                    'strong facial features',
-                    'distinctive chin',
-                    'interesting face shape'
-                ];
+                // Adjust chaos features based on attractiveness to avoid conflicts
+                let availableFeatures = [];
+                
+                if (attractivenessValue >= 7) {
+                    // For attractive people, use subtle unique features
+                    availableFeatures = [
+                        'distinctive eyebrows',
+                        'strong facial features',
+                        'interesting face shape',
+                        'memorable appearance'
+                    ];
+                } else {
+                    // For average/unattractive, can use more pronounced features
+                    availableFeatures = [
+                        'asymmetrical features',
+                        'unique nose',
+                        'distinctive eyebrows',
+                        'unusual hairline',
+                        'crooked smile',
+                        'prominent ears',
+                        'uneven eyes',
+                        'strong facial features',
+                        'distinctive chin',
+                        'interesting face shape'
+                    ];
+                }
                 
                 let numFeatures = 0;
                 if (chaosValue <= 4) numFeatures = 1;
@@ -737,8 +781,11 @@
                 else if (chaosValue <= 8) numFeatures = 3;
                 else numFeatures = 4;
                 
+                // Don't exceed available features
+                numFeatures = Math.min(numFeatures, availableFeatures.length);
+                
                 while (chaosFeatures.length < numFeatures) {
-                    const feature = allFeatures[randomInRange(0, allFeatures.length - 1)];
+                    const feature = availableFeatures[randomInRange(0, availableFeatures.length - 1)];
                     if (!chaosFeatures.includes(feature)) {
                         chaosFeatures.push(feature);
                     }
